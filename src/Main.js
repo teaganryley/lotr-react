@@ -1,5 +1,6 @@
 import React from 'react';
-import debounce from 'debounce'; 
+import debounce from 'debounce';
+import AsyncAutoComplete from './components/AsyncAutoComplete';
 
 const _searchCharacter = characterName => {
   // ping BE here!!
@@ -15,6 +16,7 @@ export default function Main() {
       <h3>
         This is the main component
       </h3>
+      <AsyncAutoComplete />
     </React.Fragment>
   );
 }
