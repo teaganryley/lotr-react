@@ -11,7 +11,7 @@ export default function AsyncAutoComplete() {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   //const loading  = open && options.length === 0;
-
+  const loading = false;
   //useEffect async
 
   // looking up useEffect(func, [open]);
@@ -40,8 +40,10 @@ export default function AsyncAutoComplete() {
       getOptionSelected={(option, value) => option.title === value.name}
       getOptionLabel={(option) => option.title}
       options={options}
-      renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
-      //renderInput={CustomAutoCompleteInput}
+      loading={loading}
+      //renderInput={(params) => <div>{console.log(params)}</div>}
+      //renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+      renderInput={CustomAutoCompleteInput}
     />
   );
 }
