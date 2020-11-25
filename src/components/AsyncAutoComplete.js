@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import async
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import CustomAutoCompleteInput from './CustomAutoCompleteInput';
@@ -10,39 +10,36 @@ import CustomAutoCompleteInput from './CustomAutoCompleteInput';
 export default function AsyncAutoComplete() {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
-  //const loading  = open && options.length === 0;
+  // const loading  = open && options.length === 0;
   const loading = false;
-  //useEffect async
+  // useEffect async
 
-  // looking up useEffect(func, [open]);
-  // ^only runs re-render if specified value(s) change
-  useEffect(()=>{
+  useEffect(() => {
     if (!open) {
       setOptions([]);
-    }
-    else {
+    } else {
       setOptions(top100Films);
     }
-  },[open]);
+  }, [open]);
 
-  //add loading prop once async is introduced
+  // add loading prop once async is introduced
   return (
-    <Autocomplete 
+    <Autocomplete
       id="async-auto"
       style={{ width: 300 }}
       open={open}
-      onOpen={()=>{
+      onOpen={() => {
         setOpen(true);
       }}
-      onClose={()=>{
+      onClose={() => {
         setOpen(false);
       }}
       getOptionSelected={(option, value) => option.title === value.name}
       getOptionLabel={(option) => option.title}
       options={options}
       loading={loading}
-      //renderInput={(params) => <div>{console.log(params)}</div>}
-      //renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+      // renderInput={(params) => <div>{console.log(params)}</div>}
+      // renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
       renderInput={CustomAutoCompleteInput}
     />
   );
@@ -101,7 +98,11 @@ const top100Films = [
   { title: 'Apocalypse Now', year: 1979 },
   { title: 'Alien', year: 1979 },
   { title: 'Sunset Boulevard', year: 1950 },
-  { title: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb', year: 1964 },
+  {
+    title:
+      'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb',
+    year: 1964,
+  },
   { title: 'The Great Dictator', year: 1940 },
   { title: 'Cinema Paradiso', year: 1988 },
   { title: 'The Lives of Others', year: 2006 },

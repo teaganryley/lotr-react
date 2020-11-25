@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-export default function CustomAutoCompleteInput(props) {
-  const  { loading, ...params } = props;
-  
+const CustomAutoCompleteInput = (props) => {
+  const { loading, ...params } = props;
+
   const endAdornment = (
     <React.Fragment>
       {loading ? <CircularProgress color="inherit" size={20} /> : null}
@@ -19,9 +20,15 @@ export default function CustomAutoCompleteInput(props) {
       label="Asynchronous"
       variant="outlined"
       InputProps={{
-        ...params.InputProps, 
-        endAdornment
+        ...params.InputProps,
+        endAdornment,
       }}
     />
   );
-}
+};
+
+CustomAutoCompleteInput.propTypes = {
+  loading: PropTypes.bool,
+};
+
+export default CustomAutoCompleteInput;
