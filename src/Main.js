@@ -1,21 +1,18 @@
-import React from 'react';
-import debounce from 'debounce';
+import React, { useState, useEffect } from 'react';
 import AsyncAutoComplete from './components/AsyncAutoComplete';
 
-const _searchCharacter = characterName => {
-  // ping BE here!!
-  return 'Gimli';
-}
-
-// debounce to avoid pinging BE for each keystroke
-//const searchCharacter = debounce(_searchCharacter, 500);
+import API from './api';
 
 export default function Main() {
+  const [response, setResponse] = useState('No response yet');
+  const [isLoading, setLoading] = useState(true);
+
+  if (isLoading) return (<div>Loading...</div>);
   return (
     <React.Fragment>
-      <h3>
-        This is the main component
-      </h3>
+      <p>
+        {response}
+      </p>
       <AsyncAutoComplete />
     </React.Fragment>
   );

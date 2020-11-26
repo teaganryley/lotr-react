@@ -1,49 +1,34 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-use-before-define */
+
+import React, { useEffect } from 'react';
 // import async
-// import TextField from '@material-ui/core/TextField';
+import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import CustomAutoCompleteInput from './CustomAutoCompleteInput';
-
-// TODO: implement rudimentary loading (just make it a timer for now)
-
-export default function AsyncAutoComplete() {
-  const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState([]);
-  // const loading  = open && options.length === 0;
-  const loading = false;
-  // useEffect async
-
+const AsyncAutoComplete = () => {
+  // const [open, setOpen] = useState(false);
+  // const [options, setOptions] = useState([]);
   useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    } else {
-      setOptions(top100Films);
-    }
-  }, [open]);
+    // set options on load
+  }, []);
 
-  // add loading prop once async is introduced
+  // TODO: loading here, or parent component?
   return (
     <Autocomplete
-      id="async-auto"
+      id="lotr-auto"
       style={{ width: 300 }}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      getOptionSelected={(option, value) => option.title === value.name}
-      getOptionLabel={(option) => option.title}
-      options={options}
-      loading={loading}
-      // renderInput={(params) => <div>{console.log(params)}</div>}
-      // renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
-      renderInput={CustomAutoCompleteInput}
+      options={top100Films.map((option) => option.title)}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Search"
+          margin="normal"
+          variant="outlined"
+        />
+      )}
     />
   );
-}
+};
 
 const top100Films = [
   { title: 'The Shawshank Redemption', year: 1994 },
@@ -151,3 +136,5 @@ const top100Films = [
   { title: '3 Idiots', year: 2009 },
   { title: 'Monty Python and the Holy Grail', year: 1975 },
 ];
+
+export default AsyncAutoComplete;
