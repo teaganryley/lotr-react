@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Biography from './Biography';
 // import AsyncAutoComplete from './components/AsyncAutoComplete';
 
 import API from '../api';
@@ -9,6 +10,7 @@ export default function Main() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setLoading] = useState(true);
   // const [quotes, setQuotes] = useState([]);
+  const [currentChar, setCurrentChar] = useState({ name: 'tea' });
 
   useEffect(() => {
     API.get('/character')
@@ -20,15 +22,19 @@ export default function Main() {
   }, []);
 
   const handleSelect = (event, value) => {
-    const { _id: id } = value;
-    // TODO: handle clear selection-- causes destructuring problem
-    console.log(event);
-    // console.log(`/quote/${id}`);
-    API.get(`/character/${id}/quote`)
-      .then(({ data }) => {
-        console.log(data.docs);
-      })
-      .catch((er) => console.log(er));
+    if (value) {
+      const { _id: id } = value;
+      setCurrentChar(value);
+      // console.log(event);
+      // console.log(`/character/${id}/quote`);
+      API.get(`/character/${id}/quote`)
+        .then(({ data }) => {
+          console.log(data.docs);
+          // setQuotes();
+        })
+        .catch((er) => console.log(er));
+    }
+    // console.log(value);
   };
 
   if (isLoading) return (<div>Loading...</div>);
@@ -53,7 +59,8 @@ export default function Main() {
           />
         )}
       />
-
+      <h4>Funny Gandalf jokes:</h4>
+      <Biography character={currentChar} />
     </React.Fragment>
   );
 }
