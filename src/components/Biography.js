@@ -4,13 +4,9 @@ import PropTypes from 'prop-types';
 const Biography = ({ character }) => (
   <ul>
     {Object.keys(character).map(field => {
-      const key = field.toString();
-
-      if (field === '_id' || !character[field]) {
-        return (<div key={key} />);
-      }
+      if (field === '_id' || !character[field]) return null;
       return (
-        <li key={key}>
+        <li key={field}>
           <strong>
             {field}
             :
