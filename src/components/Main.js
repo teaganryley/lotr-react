@@ -18,7 +18,7 @@ export default function Main() {
         setCharacters(data.docs);
         setLoading(false);
       })
-      .catch((er) => console.error(er));
+      .catch(er => console.error(er));
   }, []);
 
   const handleSelect = (event, value) => {
@@ -32,7 +32,7 @@ export default function Main() {
           console.log(data.docs);
           // setQuotes();
         })
-        .catch((er) => console.log(er));
+        .catch(er => console.log(er));
     }
     // console.log(value);
   };
@@ -48,9 +48,9 @@ export default function Main() {
         style={{ width: 300 }}
         options={characters}
         getOptionSelected={(option, value) => option.name === value.name}
-        getOptionLabel={(option) => option.name}
+        getOptionLabel={option => option.name}
         onChange={handleSelect}
-        renderInput={(params) => (
+        renderInput={params => (
           <TextField
             {...params}
             label="Search"

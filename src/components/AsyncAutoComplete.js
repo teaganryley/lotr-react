@@ -17,9 +17,9 @@ const AsyncAutoComplete = ({ characters }) => {
       style={{ width: 300 }}
       options={characters}
       getOptionSelected={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.name}
+      getOptionLabel={option => option.name}
       onChange={handleChange}
-      renderInput={(params) => (
+      renderInput={params => (
         <TextField
           {...params}
           label="Search"
