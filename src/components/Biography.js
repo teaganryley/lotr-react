@@ -12,7 +12,9 @@ const Biography = ({ character }) => (
             :
             {' '}
           </strong>
-          <span>{character[field]}</span>
+          <span>
+            {character[field]}
+          </span>
         </li>
       );
     })}

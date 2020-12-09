@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Biography from './Biography';
+import QuotePage from './QuotePage';
 // import AsyncAutoComplete from './components/AsyncAutoComplete';
 
 import API from '../api';
@@ -9,9 +10,10 @@ import API from '../api';
 export default function Main() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  // const [quotes, setQuotes] = useState([]);
-  const [currentChar, setCurrentChar] = useState({ name: 'tea' });
+  const [currentChar, setCurrentChar] = useState({});
+  const [charID, setCharID] = useState('');
 
+  // TODO asynch
   useEffect(() => {
     API.get('/character')
       .then(({ data }) => {
@@ -22,27 +24,19 @@ export default function Main() {
   }, []);
 
   const handleSelect = (event, value) => {
+    // is there ever a case in which value is undefined?
     if (value) {
       const { _id: id } = value;
       setCurrentChar(value);
-      // console.log(event);
-      // console.log(`/character/${id}/quote`);
-      API.get(`/character/${id}/quote`)
-        .then(({ data }) => {
-          console.log(data.docs);
-          // setQuotes();
-        })
-        .catch(er => console.log(er));
+      setCharID(id);
     }
-    // console.log(value);
   };
+
+  // todo handleClear
 
   if (isLoading) return (<div>Loading...</div>);
   return (
     <React.Fragment>
-      <p>
-        {console.log(characters)}
-      </p>
       <Autocomplete
         id="lotr-auto"
         style={{ width: 300 }}
@@ -59,8 +53,10 @@ export default function Main() {
           />
         )}
       />
-      <h4>Funny Gandalf jokes:</h4>
+      <h4>Funny Gandalf facts:</h4>
       <Biography character={currentChar} />
+      <h4>Funny Gandalf sayings:</h4>
+      <QuotePage charID={charID} />
     </React.Fragment>
   );
 }
