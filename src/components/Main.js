@@ -33,6 +33,7 @@ export default function Main() {
   };
 
   // todo handleClear
+  // todo Handle no charID
 
   if (isLoading) return (<div>Loading...</div>);
   return (
@@ -56,7 +57,7 @@ export default function Main() {
       <h4>Funny Gandalf facts:</h4>
       <Biography character={currentChar} />
       <h4>Funny Gandalf sayings:</h4>
-      <QuotePage charID={charID} />
+      {(charID) && (<QuotePage charID={charID} />)}
     </React.Fragment>
   );
 }
