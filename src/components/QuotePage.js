@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import Pagination from '@material-ui/lab/Pagination';
 import Typography from '@material-ui/core/Typography';
 
-// import API from '../api';
+import API from '../api';
+
 /*
 API.get(`/character/${id}/quote`)
         .then(({ data }) => {
@@ -18,13 +19,18 @@ API.get(`/character/${id}/quote`)
 const QuotePage = ({ charID }) => {
   // const [currentID, setCurrentID] = useState(charID);
   const [page, setPage] = useState(1);
+  const [quotes, setQuotes] = useState([]);
 
   const handleChange = (event, value) => {
     setPage(value);
   };
 
   useEffect(() => {
-    console.log(charID);
+    API.get(`/character/${charID}/quote?limit=5&page=${page}`)
+      .then(({ data }) => {
+        setQuotes(data.docs);
+      })
+      .catch(er => console.log(er));
   }, []);
 
   return (
@@ -33,6 +39,13 @@ const QuotePage = ({ charID }) => {
         {'Page: '}
         {page}
       </Typography>
+      <ul>
+        {quotes && quotes.map(quote => (
+          <li key={quote._id}>
+            {quote.dialog}
+          </li>
+        ))}
+      </ul>
       <Pagination count={10} page={page} onChange={handleChange} />
     </div>
   );
