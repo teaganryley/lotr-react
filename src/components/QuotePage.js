@@ -6,20 +6,24 @@ import Typography from '@material-ui/core/Typography';
 import API from '../api';
 
 /*
-API.get(`/character/${id}/quote`)
-        .then(({ data }) => {
-          console.log(data.docs);
-          // setQuotes();
-        })
-        .catch(er => console.log(er));
+
+TODO:
+  -count prop: total number of pages
+  -what happens at boundaries?
+  -why are my components rendering so much??
+  -add limit selection component
+  -Clear quots when new character is selected
 
 {{base_url}}/character/5cd99d4bde30eff6ebccfea0/quote?limit=5&page=2
+
 */
 
 const QuotePage = ({ charID }) => {
-  // const [currentID, setCurrentID] = useState(charID);
+  // const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
   const [quotes, setQuotes] = useState([]);
+  const [renderCount, setRenderCount] = useState(1);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -29,15 +33,20 @@ const QuotePage = ({ charID }) => {
     API.get(`/character/${charID}/quote?limit=5&page=${page}`)
       .then(({ data }) => {
         setQuotes(data.docs);
+        setTotalPages(data.pages);
       })
       .catch(er => console.log(er));
   }, []);
 
+  useEffect(() => {
+    setRenderCount(c => c + 1);
+  }, [page, totalPages, quotes]);
+
   return (
     <div>
       <Typography>
-        {'Page: '}
-        {page}
+        {'Render Count: '}
+        {renderCount}
       </Typography>
       <ul>
         {quotes && quotes.map(quote => (
@@ -46,7 +55,7 @@ const QuotePage = ({ charID }) => {
           </li>
         ))}
       </ul>
-      <Pagination count={10} page={page} onChange={handleChange} />
+      <Pagination count={totalPages} page={page} onChange={handleChange} />
     </div>
   );
 };
