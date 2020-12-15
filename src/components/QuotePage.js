@@ -3,37 +3,46 @@ import PropTypes from 'prop-types';
 import Pagination from '@material-ui/lab/Pagination';
 import Typography from '@material-ui/core/Typography';
 
-// import API from '../api';
-/*
-API.get(`/character/${id}/quote`)
-        .then(({ data }) => {
-          console.log(data.docs);
-          // setQuotes();
-        })
-        .catch(er => console.log(er));
+import API from '../api';
 
-{{base_url}}/character/5cd99d4bde30eff6ebccfea0/quote?limit=5&page=2
+/*
+TODO:
+  -what happens at boundaries?
+  -add limit selection component
 */
 
 const QuotePage = ({ charID }) => {
-  // const [currentID, setCurrentID] = useState(charID);
+  // const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
+  const [quotes, setQuotes] = useState([]);
 
   const handleChange = (event, value) => {
     setPage(value);
   };
 
   useEffect(() => {
-    console.log(charID);
-  }, []);
+    API.get(`/character/${charID}/quote?limit=10&page=${page}`)
+      .then(({ data }) => {
+        setQuotes(data.docs);
+        setTotalPages(data.pages);
+      })
+      .catch(er => console.log(er));
+  }, [charID, page]);
 
   return (
     <div>
       <Typography>
-        {'Page: '}
-        {page}
+        placeholder
       </Typography>
-      <Pagination count={10} page={page} onChange={handleChange} />
+      <ul>
+        {quotes && quotes.map(quote => (
+          <li key={quote._id}>
+            {quote.dialog}
+          </li>
+        ))}
+      </ul>
+      <Pagination count={totalPages} page={page} onChange={handleChange} />
     </div>
   );
 };
