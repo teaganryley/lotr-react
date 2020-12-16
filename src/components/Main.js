@@ -24,16 +24,15 @@ export default function Main() {
   }, []);
 
   const handleSelect = (event, value) => {
-    // is there ever a case in which value is undefined?
-    if (value) {
+    if (!value) {
+      setCurrentChar({});
+      setCharID('');
+    } else {
       const { _id: id } = value;
       setCurrentChar(value);
       setCharID(id);
     }
   };
-
-  // todo handleClear
-  // todo Handle no charID
 
   if (isLoading) return (<div>Loading...</div>);
   return (
