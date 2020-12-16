@@ -55,7 +55,6 @@ export default function Main() {
       />
       <h4>Funny Gandalf facts:</h4>
       <Biography character={currentChar} />
-      <h4>Funny Gandalf sayings:</h4>
       {(charID) && (<QuotePage charID={charID} />)}
     </React.Fragment>
   );
