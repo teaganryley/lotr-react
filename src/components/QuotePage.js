@@ -1,49 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import Pagination from '@material-ui/lab/Pagination';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 
 import API from '../api';
 
 /*
 TODO:
   -what happens at boundaries?
-  -add limit selection component
+  -conditional rendering for no quotes... something like 'no quotes available'
 */
 
 const QuotePage = ({ charID }) => {
-  // const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const [quotes, setQuotes] = useState([]);
+  const pageLimits = [5, 10, 15];
 
-  const handleChange = (event, value) => {
+  const handleLimitChange = event => {
+    setLimit(event.target.value);
+  };
+
+  const handlePageChange = (event, value) => {
     setPage(value);
   };
 
   useEffect(() => {
-    API.get(`/character/${charID}/quote?limit=10&page=${page}`)
+    API.get(`/character/${charID}/quote?limit=${limit}&page=${page}`)
       .then(({ data }) => {
         setQuotes(data.docs);
         setTotalPages(data.pages);
       })
       .catch(er => console.log(er));
-  }, [charID, page]);
+  }, [charID, page, limit]);
 
   return (
-    <div>
-      <Typography>
-        placeholder
-      </Typography>
-      <ul>
-        {quotes && quotes.map(quote => (
-          <li key={quote._id}>
-            {quote.dialog}
-          </li>
-        ))}
-      </ul>
-      <Pagination count={totalPages} page={page} onChange={handleChange} />
-    </div>
+    <React.Fragment>
+      <h4>Movie Quotes List</h4>
+      <div>
+        <Select value={limit} onChange={handleLimitChange}>
+          {pageLimits.map(size => (
+            <MenuItem key={size} value={size}>
+              {size}
+            </MenuItem>
+          ))}
+        </Select>
+        <ul>
+          {quotes && quotes.map(quote => (
+            <li key={quote._id}>
+              {quote.dialog}
+            </li>
+          ))}
+        </ul>
+        <Pagination count={totalPages} page={page} onChange={handlePageChange} />
+      </div>
+    </React.Fragment>
   );
 };
 
