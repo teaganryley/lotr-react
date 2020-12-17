@@ -14,7 +14,7 @@ TODO:
 */
 
 const QuotePage = ({ charID }) => {
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const [quotes, setQuotes] = useState([]);
@@ -37,6 +37,7 @@ const QuotePage = ({ charID }) => {
       .catch(er => console.log(er));
   }, [charID, page, limit]);
 
+  if (!quotes?.length) return (<div>no movie quotes</div>);
   return (
     <React.Fragment>
       <h4>Movie Quotes List</h4>
