@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Pagination from '@material-ui/lab/Pagination';
 // import Typography from '@material-ui/core/Typography';
 
-import API from '../api';
+import API from '../../services/api';
 
 /*
 TODO:

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Biography from './Biography';
-import QuotePage from './QuotePage';
-// import AsyncAutoComplete from './components/AsyncAutoComplete';
+import Biography from '../biography';
+import QuotePage from '../quotePage';
 
-import API from '../api';
+import API from '../../services/api';
 
 export default function Main() {
   const [characters, setCharacters] = useState([]);
