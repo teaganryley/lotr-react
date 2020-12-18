@@ -12,8 +12,7 @@ const Biography = ({ character }) => {
           <li key={field}>
             <strong>
               {field}
-              :
-              {' '}
+              {': '}
             </strong>
             <span>
               {character[field]}
@@ -26,7 +25,9 @@ const Biography = ({ character }) => {
 };
 
 Biography.propTypes = {
-  character: PropTypes.object,
+  character: PropTypes.shape({
+    _id: PropTypes.string,
+  }),
 };
 
 export default Biography;

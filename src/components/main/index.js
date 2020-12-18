@@ -3,16 +3,13 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Biography from '../biography';
 import QuotePage from '../quotePage';
-
 import API from '../../services/api';
 
-export default function Main() {
+const Main = () => {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [currentChar, setCurrentChar] = useState({});
-  const [charID, setCharID] = useState('');
 
-  // TODO asynch
   useEffect(() => {
     API.get('/character')
       .then(({ data }) => {
@@ -22,16 +19,7 @@ export default function Main() {
       .catch(er => console.error(er));
   }, []);
 
-  const handleSelect = (event, value) => {
-    if (!value) {
-      setCurrentChar({});
-      setCharID('');
-    } else {
-      const { _id: id } = value;
-      setCurrentChar(value);
-      setCharID(id);
-    }
-  };
+  const handleSelect = (event, value = {}) => setCurrentChar(value);
 
   if (isLoading) return (<div>Loading...</div>);
   return (
@@ -52,9 +40,14 @@ export default function Main() {
           />
         )}
       />
-      <h4>Funny Gandalf facts:</h4>
+      <h4>
+        {currentChar?.name}
+        {' facts: '}
+      </h4>
       <Biography character={currentChar} />
-      {(charID) && (<QuotePage charID={charID} />)}
+      {(currentChar?._id) && (<QuotePage charID={currentChar?._id} />)}
     </React.Fragment>
   );
-}
+};
+
+export default Main;

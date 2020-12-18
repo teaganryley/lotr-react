@@ -3,15 +3,7 @@ import PropTypes from 'prop-types';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Pagination from '@material-ui/lab/Pagination';
-// import Typography from '@material-ui/core/Typography';
-
 import API from '../../services/api';
-
-/*
-TODO:
-  -what happens at boundaries?
-  -conditional rendering for no quotes... something like 'no quotes available'
-*/
 
 const QuotePage = ({ charID }) => {
   const [limit, setLimit] = useState(5);
@@ -20,13 +12,9 @@ const QuotePage = ({ charID }) => {
   const [quotes, setQuotes] = useState([]);
   const pageLimits = [5, 10, 15];
 
-  const handleLimitChange = event => {
-    setLimit(event.target.value);
-  };
+  const handleLimitChange = ({ target }) => setLimit(target?.value);
 
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
+  const handlePageChange = (event, value) => setPage(value);
 
   useEffect(() => {
     API.get(`/character/${charID}/quote?limit=${limit}&page=${page}`)
@@ -63,7 +51,7 @@ const QuotePage = ({ charID }) => {
 };
 
 QuotePage.propTypes = {
-  charID: PropTypes.string,
+  charID: PropTypes.string.isRequired,
 };
 
 export default QuotePage;
