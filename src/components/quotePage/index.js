@@ -34,10 +34,6 @@ const QuotePage = ({ charID }) => {
 
   const pageLimits = [5, 10, 15];
 
-  const handleLimitChange = ({ target }) => dispatch({ type: 'setLimit', payload: target?.value });
-
-  const handlePageChange = (event, value) => dispatch({ type: 'setPage', payload: value });
-
   useEffect(() => {
     API.get(`/character/${charID}/quote?limit=${state.limit}&page=${state.page}`)
       .then(({ data }) => {
@@ -52,7 +48,10 @@ const QuotePage = ({ charID }) => {
     <React.Fragment>
       <h4>Movie Quotes List</h4>
       <div>
-        <Select value={state.limit} onChange={handleLimitChange}>
+        <Select
+          value={state.limit}
+          onChange={({ target }) => dispatch({ type: 'setLimit', payload: target?.value })}
+        >
           {pageLimits.map(size => (
             <MenuItem key={size} value={size}>
               {size}
@@ -66,7 +65,11 @@ const QuotePage = ({ charID }) => {
             </li>
           ))}
         </ul>
-        <Pagination count={state.totalPages} page={state.page} onChange={handlePageChange} />
+        <Pagination
+          count={state.totalPages}
+          page={state.page}
+          onChange={(event, value) => dispatch({ type: 'setPage', payload: value })}
+        />
       </div>
     </React.Fragment>
   );
