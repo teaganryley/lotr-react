@@ -5,6 +5,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Pagination from '@material-ui/lab/Pagination';
 import API from '../../services/api';
 
+const pageLimits = [5, 10, 15];
+
 const init = charID => ({
   _id: charID,
   limit: 5,
@@ -14,31 +16,35 @@ const init = charID => ({
   error: null,
 });
 
-const reducer = (state, action) => {
+const reducer = (state = { ...init }, action = {}) => {
   switch (action.type) {
-    case 'setLimit':
-      return { ...state, limit: action.payload };
-    case 'setPage':
-      return { ...state, page: action.payload };
-    case 'setTotalPages':
-      return { ...state, totalPages: action.payload };
-    case 'setQuotes':
-      return { ...state, quotes: action.payload };
+    case 'UPDATE_SETTINGS':
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
-      throw new Error();
+      return state;
   }
 };
+
+const updateSettings = fieldAndValue => ({
+  type: 'UPDATE_SETTINGS',
+  payload: fieldAndValue,
+});
 
 const QuotePage = ({ charID }) => {
   const [state, dispatch] = useReducer(reducer, charID, init);
 
-  const pageLimits = [5, 10, 15];
-
   useEffect(() => {
     API.get(`/character/${charID}/quote?limit=${state.limit}&page=${state.page}`)
       .then(({ data }) => {
-        dispatch({ type: 'setQuotes', payload: data.docs });
-        dispatch({ type: 'setTotalPages', payload: data.pages });
+        dispatch(updateSettings(
+          {
+            quotes: data.docs,
+            totalPages: data.pages,
+          },
+        ));
       })
       .catch(er => console.log(er));
   }, [charID, state.page, state.limit]);
@@ -50,7 +56,7 @@ const QuotePage = ({ charID }) => {
       <div>
         <Select
           value={state.limit}
-          onChange={({ target }) => dispatch({ type: 'setLimit', payload: target?.value })}
+          onChange={({ target }) => dispatch(updateSettings({ limit: target?.value }))}
         >
           {pageLimits.map(size => (
             <MenuItem key={size} value={size}>
@@ -68,7 +74,7 @@ const QuotePage = ({ charID }) => {
         <Pagination
           count={state.totalPages}
           page={state.page}
-          onChange={(event, value) => dispatch({ type: 'setPage', payload: value })}
+          onChange={(event, value) => dispatch(updateSettings({ page: value }))}
         />
       </div>
     </React.Fragment>
