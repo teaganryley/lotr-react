@@ -24,11 +24,6 @@ const theme = createMuiTheme({
   },
 });
 
-if (process.env.NODE_ENV === 'development') {
-  const { worker } = require('./mocks/browser');
-  worker.start();
-}
-
 ReactDOM.render(
   <Router>
     <ThemeProvider theme={theme}>
