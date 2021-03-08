@@ -4,11 +4,22 @@ import Biography from '../biography';
 import QuotePage from '../quotePage';
 
 const DisplayInfo = ({ character, limit }) => {
-  if (!character) return (<span>select character plz</span>);
+  let content;
+
+  if (character) {
+    content = (
+      <div>
+        <Biography character={character} />
+        <QuotePage charID={character?._id} limit={limit} />
+      </div>
+    );
+  } else {
+    content = <div>nothin yet</div>;
+  }
+
   return (
     <React.Fragment>
-      <Biography character={character} />
-      <QuotePage charID={character?._id} limit={limit} />
+      {content}
     </React.Fragment>
   );
 };

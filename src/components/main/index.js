@@ -9,7 +9,7 @@ import API from '../../services/api';
 const Main = () => {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [currentChar, setCurrentChar] = useState({});
+  const [currentChar, setCurrentChar] = useState(null);
   const [limit, setLimit] = useState(10);
 
   const pageLimits = [5, 10, 15];
