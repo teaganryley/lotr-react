@@ -15,13 +15,17 @@ const Main = () => {
   const pageLimits = [5, 10, 15];
 
   useEffect(() => {
+    // console.log('fetching');
     API.get('/character')
       .then(({ data }) => {
+        // console.log('got it!');
         setCharacters(data.docs);
         setLoading(false);
       })
       .catch(er => console.error(er));
   }, []);
+
+  // console.log(characters);
 
   const handleSelect = (event, value = {}) => setCurrentChar(value);
 
@@ -32,6 +36,7 @@ const Main = () => {
     <React.Fragment>
       <Autocomplete
         id="lotr-auto"
+        data-testid="lotr-select"
         style={{ width: 300 }}
         options={characters}
         getOptionSelected={(option, value) => option.name === value.name}
