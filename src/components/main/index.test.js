@@ -8,13 +8,13 @@ import testData from './testData';
 import Main from './index';
 
 const server = setupServer(
-  // eslint-disable-next-line arrow-body-style
-  rest.get('/character', (req, res, ctx) => {
-    return res(ctx.json(testData));
-  }),
+  rest.get('https://the-one-api.dev/v2/character', (req, res, ctx) => res(ctx.json(testData))),
 );
 
-beforeAll(() => server.listen());
+beforeAll(() => server.listen({
+  onUnhandledRequest: 'warn',
+}));
+
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
@@ -23,8 +23,7 @@ test('Displays loading on first render', () => {
   expect(screen.getByText('Loading...')).toBeInTheDocument();
 });
 
-test('Wait for async request for combo box, render', async () => {
+test('Wait for combo box to appear after async request', async () => {
   render(<Main />);
-
   expect(await screen.findByTestId('lotr-select')).toBeInTheDocument();
 });
