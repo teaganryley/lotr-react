@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import Pagination from '@material-ui/lab/Pagination';
 import API from '../../services/api';
 
-const QuotePage = ({ charID }) => {
-  const [limit, setLimit] = useState(5);
+const QuotePage = ({ charID, limit }) => {
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(10);
   const [quotes, setQuotes] = useState([]);
-  const pageLimits = [5, 10, 15];
-
-  const handleLimitChange = ({ target }) => setLimit(target?.value);
+  const [totalPages, setTotalPages] = useState(10);
 
   const handlePageChange = (event, value) => setPage(value);
+
+  // memoize quotes? get rid of validation?
 
   useEffect(() => {
     API.get(`/character/${charID}/quote?limit=${limit}&page=${page}`)
@@ -30,13 +26,6 @@ const QuotePage = ({ charID }) => {
     <React.Fragment>
       <h4>Movie Quotes List</h4>
       <div>
-        <Select value={limit} onChange={handleLimitChange}>
-          {pageLimits.map(size => (
-            <MenuItem key={size} value={size}>
-              {size}
-            </MenuItem>
-          ))}
-        </Select>
         <ul>
           {quotes && quotes.map(quote => (
             <li key={quote._id}>
@@ -52,6 +41,7 @@ const QuotePage = ({ charID }) => {
 
 QuotePage.propTypes = {
   charID: PropTypes.string.isRequired,
+  limit: PropTypes.number.isRequired,
 };
 
 export default QuotePage;
