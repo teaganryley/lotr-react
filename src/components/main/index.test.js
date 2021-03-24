@@ -3,6 +3,7 @@ import React from 'react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { render, screen } from '@testing-library/react';
+// import { act } from 'react-dom/test-utils';
 // import userEvent from '@testing-library/user-event';
 import testData from './testData';
 import Main from './index';
@@ -18,12 +19,8 @@ beforeAll(() => server.listen({
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-test('Displays loading on first render', () => {
-  render(<Main />);
-  expect(screen.getByText('Loading...')).toBeInTheDocument();
-});
-
 test('Wait for combo box to appear after async request', async () => {
   render(<Main />);
-  expect(await screen.findByTestId('lotr-select')).toBeInTheDocument();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  expect(await screen.findByRole('combobox')).toBeInTheDocument();
 });
