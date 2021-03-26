@@ -19,8 +19,20 @@ beforeAll(() => server.listen({
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-test('Wait for combo box to appear after async request', async () => {
+test('Wait for combobox to appear after async request', async () => {
   render(<Main />);
   expect(screen.getByText(/loading/i)).toBeInTheDocument();
   expect(await screen.findByRole('combobox')).toBeInTheDocument();
+});
+
+test('Wait for pagination button to appear after async request', async () => {
+  render(<Main />);
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  expect(await screen.findByRole('button', { name: /page limit/i })).toBeInTheDocument();
+});
+
+test('Wait for DisplayInfo component to appear after async', async () => {
+  render(<Main />);
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  expect(await screen.findByText(/biography and quotes/i)).toBeInTheDocument();
 });

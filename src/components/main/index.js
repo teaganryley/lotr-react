@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import DisplayInfo from '../displayInfo';
@@ -36,7 +38,6 @@ const Main = () => {
     <React.Fragment>
       <Autocomplete
         id="lotr-auto"
-        data-testid="lotr-select"
         style={{ width: 300 }}
         options={characters}
         getOptionSelected={(option, value) => option.name === value.name}
@@ -51,13 +52,21 @@ const Main = () => {
           />
         )}
       />
-      <Select value={limit} onChange={handleLimitChange}>
-        {pageLimits.map(size => (
-          <MenuItem key={size} value={size}>
-            {size}
-          </MenuItem>
-        ))}
-      </Select>
+      <FormControl>
+        <InputLabel id="page-limit-select-label">Page limit</InputLabel>
+        <Select
+          labelId="page-limit-select-label"
+          id="page-limit-select"
+          value={limit}
+          onChange={handleLimitChange}
+        >
+          {pageLimits.map(size => (
+            <MenuItem key={size} value={size}>
+              {size}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <DisplayInfo character={currentChar} limit={limit} />
     </React.Fragment>
   );
