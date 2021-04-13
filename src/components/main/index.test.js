@@ -3,6 +3,7 @@ import React from 'react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { render, screen } from '@testing-library/react';
+// import { act } from 'react-dom/test-utils';
 // import userEvent from '@testing-library/user-event';
 import testData from './testData';
 import Main from './index';
@@ -18,12 +19,20 @@ beforeAll(() => server.listen({
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-test('Displays loading on first render', () => {
+test('Wait for combobox to appear after async request', async () => {
   render(<Main />);
-  expect(screen.getByText('Loading...')).toBeInTheDocument();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  expect(await screen.findByRole('combobox')).toBeInTheDocument();
 });
 
-test('Wait for combo box to appear after async request', async () => {
+test('Wait for pagination button to appear after async request', async () => {
   render(<Main />);
-  expect(await screen.findByTestId('lotr-select')).toBeInTheDocument();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  expect(await screen.findByRole('button', { name: /page limit/i })).toBeInTheDocument();
+});
+
+test('Wait for DisplayInfo component to appear after async', async () => {
+  render(<Main />);
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  expect(await screen.findByText(/biography and quotes/i)).toBeInTheDocument();
 });

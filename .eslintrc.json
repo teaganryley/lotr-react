@@ -7,7 +7,9 @@
     "extends": [
         "plugin:react/recommended",
         "airbnb",
-        "plugin:jest/style"
+        "plugin:jest/style",
+        "plugin:jest-dom/recommended",
+        "plugin:testing-library/react"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -18,7 +20,9 @@
     },
     "plugins": [
         "react",
-        "jest"
+        "jest",
+        "jest-dom",
+        "testing-library"
     ],
     "rules": {
         "arrow-parens": ["error", "as-needed"],

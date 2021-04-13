@@ -19,6 +19,7 @@ const DisplayInfo = ({ character, limit }) => {
 
   return (
     <React.Fragment>
+      <h4>Biography and Quotes:</h4>
       {content}
     </React.Fragment>
   );
